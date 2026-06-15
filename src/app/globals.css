@@ -1,26 +1,55 @@
+/* app.css / globals.css */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  /* Brand */
+  --color-primary: #46fec6;
+  --color-primary-foreground: #15212b;
+  --color-primary-glow: rgba(70, 254, 198, 0.18);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-secondary: #8b6cff;
+  --color-secondary-foreground: #ffffff;
+  --color-secondary-glow: rgba(139, 108, 255, 0.18);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Backgrounds */
+  --color-background: #fcfdfc;
+  --color-background-secondary: #f6f9f8;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f9fbfa;
+
+  /* Text */
+  --color-text: #15212b;
+  --color-text-secondary: #5f6b76;
+  --color-text-muted: #94a0ab;
+
+  /* Borders */
+  --color-border: #e8eeec;
+  --color-border-primary: #46fec6;
+  --color-border-secondary: #8b6cff;
+
+  /* Status */
+  --color-success: #30d78b;
+  --color-warning: #ffb84d;
+  --color-error: #ff6b7a;
+  --color-info: #5aa9ff;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(21, 33, 43, 0.06);
+  --shadow-primary-glow: 0 8px 30px rgba(70, 254, 198, 0.15);
+  --shadow-secondary-glow: 0 8px 30px rgba(139, 108, 255, 0.15);
+
+  /* Radius */
+  --radius-card: 1.5rem;
+
+  /* Gradients */
+  --background-image-brand:
+    linear-gradient(135deg, #46fec6 0%, #8b6cff 100%);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-primary-foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
