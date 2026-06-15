@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
-import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
-import Image from "next/image";
-import Link from 'next/link';
 import './globals.css'
+import Navbar from '@/components/Navbar'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,33 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClerkProvider>
-          <header className="flex justify-between items-center p-4 gap-4 h-16 drop-shadow-2xl bg-surface">
-            <div>
-              <Link href={"/"}>
-                <Image src={"/images/lumio/lumio-64x64.png"} height={48} width={48} alt='Lumio character' />
-              </Link>
-            </div>
-
-            <div>
-              <Show when="signed-out">
-                <SignInButton>
-                  <button className="rounded-full font-medium text-sm sm:text-base py-1 px-6 cursor-pointer">
-                    Sign In
-                  </button>
-                </SignInButton>
-
-                <SignUpButton>
-                  <button className="bg-brand text-white rounded-full font-medium text-sm sm:text-base py-1 px-6 cursor-pointer">
-                    Sign Up
-                  </button>
-                </SignUpButton>
-              </Show>
-
-              <Show when="signed-in">
-                <UserButton />
-              </Show>
-            </div>
-          </header>
+          <Navbar />
 
           {children}
         </ClerkProvider>
