@@ -42,3 +42,11 @@ frontend/next-env.d.ts
 
 # clerk configuration (can include secrets)
 frontend/.clerk/
+
+# Python virtual env
+backend/app/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+backend/env
