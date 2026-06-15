@@ -8,7 +8,13 @@ export default function Navbar() {
         <header className="flex justify-between items-center py-1 px-3 gap-4 drop-shadow-2xl bg-surface">
           <div>
             <Link href={"/"} className="flex flex-row gap-3 items-center">
-              <Image src={"/images/lumio/lumio-64x64.png"} height={48} width={48} alt='Lumio character' />
+              <Image src={"/images/lumio/lumio-64x64.png"} 
+                height={48} 
+                width={48} 
+                alt='Lumio character'
+                loading="eager"
+              />
+              
               <p className="text-3xl text-primary">Lumio</p>
             </Link>
           </div>
