@@ -3,7 +3,7 @@ import axios from "axios";
 export const TestService = {
     async fetchHelloWorld() {
         try {
-          const { data } = await axios.get("http://localhost:8000/", {
+          const { data } = await axios.get("http://localhost:8000/api/", {
             headers: {
               Accept: "application/json",
             },
