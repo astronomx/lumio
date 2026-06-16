@@ -5,12 +5,13 @@ export default function Home() {
 
   async function fetchTestHelloWorld() {
     const test = await TestService.fetchHelloWorld();
-    return test;
+    console.log("Backend response:", test);
   }
 
   return (
     <div className="flex flex-col flex-1 w-full min-h-screen font-sans">
-      <button onClick={fetchTestHelloWorld}>Click me!</button>
+      <button onClick={fetchTestHelloWorld}
+        className="cursor-pointer">Click me!</button>
     </div>
   );
 }
