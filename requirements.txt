@@ -1,4 +1,4 @@
 uvicorn
 fastapi
 pymupdf4llm
-supabases
+supabase
