@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import pymupdf4llm
+from io import TextIOWrapper
 
 app = FastAPI()
 
@@ -25,3 +27,9 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: str | None = None):
     return {"item_id": item_id, "q": q}
+
+@app.post("/extract-text")
+def extract_text_from_pdf(file: TextIOWrapper):
+    text = pymupdf4llm.to_text(file)
+    
+
