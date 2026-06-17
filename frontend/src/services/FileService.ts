@@ -1,9 +1,9 @@
 import axios from "axios"
 
 export const FileService = {
-    async extractText(file: File, title: string) {
+    async extractText(file: File) {
         try {
-            const payload = { file: file, title: title };
+            const payload = { file: file };
             const res = await axios.post(`${process.env.LOCAL_API_URL}/extract-file`, payload);
 
             console.log(res);

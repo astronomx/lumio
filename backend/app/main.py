@@ -1,9 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from supabase import create_client, Client
 from dotenv import load_dotenv
-from datetime import datetime
 
+import pymupdf
 import pymupdf4llm
 import os
 
@@ -32,6 +32,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def extract_pdf_text(file: UploadFile):
+    # Reading uploaded file in bytes
+    pdf_bytes = file.file.read()
+
+    # Open the uploaded bytes as a PDF document
+    doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
+
+    try:
+        # Extract text from PDF document
+        return pymupdf4llm.to_text(doc)
+    finally:
+        doc.close()
+
 
 @app.get("/")
 def read_root():
@@ -43,14 +56,22 @@ def read_item(item_id: int, q: str | None = None):
     return {"item_id": item_id, "q": q}
 
 @app.post("/extract-text")
-def extract_text_from_pdf(file, title: str):
-    text = pymupdf4llm.to_text(file)
-    
+def extract_text_from_pdf(file: UploadFile = File()):
+    try:
+        text = extract_pdf_text(file)
+        return {"raw_text": text}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post("/create-study-set")
+def create_study_set(title: str, text: str):
+
     data = supabase.table("study_sets").insert({
         "title": title,
         "raw_text": text
     }).execute()
 
     return data
+
 
 
