@@ -1,7 +1,11 @@
 "use client"
 import { TestService } from "@/services/TestService";
-
+import { useEffect } from "react";
 export default function Home() {
+
+  useEffect(() => {
+    console.log(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/extract-file`)
+  })
 
   async function fetchTestHelloWorld() {
     const test = await TestService.fetchHelloWorld();
