@@ -1,5 +1,6 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
@@ -11,8 +12,16 @@ load_dotenv();
 
 app = FastAPI(root_path="/api")
 
-supabase_url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
-supabase_key = os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY")
+def normalize_supabase_url(url: str) -> str:
+    return url.rstrip("/").removesuffix("/rest/v1")
+
+supabase_url = normalize_supabase_url(
+    os.getenv("SUPABASE_URL") or os.getenv("NEXT_PUBLIC_SUPABASE_URL", "")
+)
+supabase_key = (
+    os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    or os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY")
+)
 
 if not supabase_url or not supabase_key:
     raise RuntimeError("Missing Supabase environment variables")
@@ -61,17 +70,22 @@ def extract_text_from_pdf(file: UploadFile = File()):
         text = extract_pdf_text(file)
         return {"raw_text": text}
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=400, detail=str(e))
+
+class CreateStudySetRequest(BaseModel):
+    title: str
+    text: str
 
 @app.post("/create-study-set")
-def create_study_set(title: str, text: str):
-
-    data = supabase.table("study_sets").insert({
-        "title": title,
-        "raw_text": text
-    }).execute()
-
-    return data
+def create_study_set(payload: CreateStudySetRequest):
+    try:
+        data = supabase.table("study_sets").insert({
+            "title": payload.title,
+            "raw_text": payload.text
+        }).execute()
+        return {"success": True, "data": data.data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 
