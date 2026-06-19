@@ -21,7 +21,6 @@ export default function CreateStudySet() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(title);
         await uploadStudySet(title, file);
     }
 

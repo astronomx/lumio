@@ -95,5 +95,17 @@ def create_study_set(payload: CreateStudySetRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/get-study-sets")
+def retrieve_study_sets(userId: str):
+    try:
+        data = supabase.table("study_sets").select("*").eq('user_id', userId).execute()
+
+        return {"success": True, "data": data.data}
+    except APIError as e:
+        raise HTTPException(status_code=500, detail=e.message)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 
