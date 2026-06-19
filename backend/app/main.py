@@ -1,14 +1,18 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from postgrest.exceptions import APIError
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
 import pymupdf
 import pymupdf4llm
 import os
+from pathlib import Path
 
-load_dotenv();
+ROOT_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(ROOT_DIR / ".env")
+load_dotenv(ROOT_DIR / "frontend" / ".env.local")
 
 app = FastAPI(root_path="/api")
 
@@ -75,15 +79,19 @@ def extract_text_from_pdf(file: UploadFile = File()):
 class CreateStudySetRequest(BaseModel):
     title: str
     text: str
+    user_id: str
 
 @app.post("/create-study-set")
 def create_study_set(payload: CreateStudySetRequest):
     try:
         data = supabase.table("study_sets").insert({
             "title": payload.title,
-            "raw_text": payload.text
+            "raw_text": payload.text,
+            "user_id": payload.user_id,
         }).execute()
         return {"success": True, "data": data.data}
+    except APIError as e:
+        raise HTTPException(status_code=500, detail=e.message)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

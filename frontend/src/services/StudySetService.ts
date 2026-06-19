@@ -1,10 +1,17 @@
 "use server"
 
 import axios from "axios"
+import { auth } from "@clerk/nextjs/server"
 
 import { FileService } from "@/services/FileService";
 
 export async function uploadStudySet(title: string, file: File | null): Promise<void> {
+    const { userId } = await auth();
+
+    if (!userId) {
+        throw new Error("Je moet ingelogd zijn om een study set aan te maken");
+    }
+
     if (!title.trim()) {
         throw new Error("Er is geen titel aan de study set gegeven");
     }
@@ -14,13 +21,14 @@ export async function uploadStudySet(title: string, file: File | null): Promise<
     }
 
     const raw_text = await FileService.extractText(file);
-    await createStudySet(title, raw_text);
+    await createStudySet(title, raw_text, userId);
 }
 
-async function createStudySet(title: string, text: string): Promise<void> {
+async function createStudySet(title: string, text: string, userId: string): Promise<void> {
     await axios.post(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/create-study-set`, {
         title,
         text,
+        user_id: userId,
     });
 }
 

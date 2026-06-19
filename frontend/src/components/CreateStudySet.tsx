@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function CreateStudySet() {
     const [title, setTitle] = useState<string>("");
     const [file, setFile] = useState<File | null>(null);
-    
+
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
     }
@@ -21,6 +21,7 @@ export default function CreateStudySet() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(title);
         await uploadStudySet(title, file);
     }
 
