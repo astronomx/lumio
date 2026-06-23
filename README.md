@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Frontend
 
-## Getting Started
+*Install bun on your system*
+```
+# MacOS/Linux
+curl -fsSL https://bun.com/install | bash
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Windows
+powershell -c "irm bun.sh/install.ps1|iex"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*Go to frontend folder*
+```
+cd frontend/app/
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*Install dependencies*
+```
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*Run local development server*
+```
+bun run dev
+```
 
-## Learn More
+## Backend
 
-To learn more about Next.js, take a look at the following resources:
+*Install [pyenv](https://github.com/pyenv/pyenv) (for ease of mind to managing local python version)*
+```
+# MacOS/Linux
+curl -fsSL https://pyenv.run | bash
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Windows
+*Read docs about windows install*
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+*Go to backend folder*
+```
+cd backend/
+```
 
-## Deploy on Vercel
+*Set local pyenv*
+```
+pyenv local 3.12.0
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+*Create venv folder*
+```
+python3 -m venv env
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Activate venv (don't install packages unless your venv is activated)*
+```
+source env/bin/activate
+```
+
+*Install the requirements.txt*
+```
+pip install -r requirements.txt
+```
+
+*Start backend server*
+```
+uvicorn app.main:app --reload
+```
