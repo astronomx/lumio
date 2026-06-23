@@ -32,3 +32,7 @@ async function createStudySet(title: string, text: string, userId: string): Prom
     });
 }
 
+export async function getStudySets(userId: string): Promise<void> {
+    await axios.get(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/get-study-sets?userId=${userId}`);
+}
+
