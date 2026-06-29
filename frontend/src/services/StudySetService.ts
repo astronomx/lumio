@@ -2,6 +2,7 @@
 
 import axios from "axios"
 import { auth } from "@clerk/nextjs/server"
+import { StudySetType } from "@/components/StudySets";
 
 import { FileService } from "@/services/FileService";
 
@@ -32,7 +33,8 @@ async function createStudySet(title: string, text: string, userId: string): Prom
     });
 }
 
-export async function getStudySets(userId: string): Promise<void> {
-    await axios.get(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/get-study-sets?userId=${userId}`);
+export async function getStudySets(userId: string): Promise<StudySetType[]> {
+    return await axios.get(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/get-study-sets?userId=${userId}`)
+    .then(res => res.data.data);
 }
 
